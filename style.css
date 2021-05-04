@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+#play-area {
+  width: 600px;
+  height: 600px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  position: relative;
+  background-color: rgb(218, 240, 248);
+}
+
+#instructions-text {
+  color: black;
+  font-size: larger;
+  left: 35px;
+  margin-top: 150px;
+  margin-bottom: 50px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#start-button {
+  margin: auto;
+  width: 150px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  background-color: black;
+  font-family: "Righteous", cursive;
+  border-radius: 5px;
+  left: 140px;
+  top: 250px;
+}
+
+#start-button:active {
+  background-color: gray;
+  color: blue;
+  transform: scale(1.1);
+}
+
+#start-button:hover {
+  cursor: pointer;
+}
+
+#shooter {
+  width: 100px;
+  position: absolute;
+  left: 300px;
+  top: 500px;
+}
+
+.syringe {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+}
+
+.covid {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 6px 3px red;
+}
+
+.covid-transition {
+  opacity: 1;
+  transition: opacity 1.5s ease-out;
+}
+
+.dead-covid {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  opacity: 0;
+}
+
+#score {
+  font-family: Arial, Helvetica, sans-serif;
+  position: fixed;
+  top: 30px;
+  left: 650px;
+}
