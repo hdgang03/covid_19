@@ -76,6 +76,26 @@
   position: absolute;
   opacity: 0;
 }
+.heart {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 6px 3px red;
+}
+
+.heart-transition {
+  opacity: 1;
+  transition: opacity 1.5s ease-out;
+}
+
+.dead-heart {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  opacity: 0;
+}
 
 #score {
   font-family: Arial, Helvetica, sans-serif;

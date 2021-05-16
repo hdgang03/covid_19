@@ -5,14 +5,40 @@ function main() {
     const playArea = document.getElementById("play-area");
     const shooter = document.getElementById("shooter");
     const covidImgs = ['img/covid_1.png', 'img/covid_2.png', 'img/covid_3.png'];
-    const scoreCounter = document.querySelector('#score span');
+    const lifeCounter = document.querySelector('#life');
+    const scoreCounter = document.querySelector('#currentscore');
+    const highScoreCounter = document.querySelector("#highscore");
+
+    let life;
+    let score;
+    let highscore = localStorage.getItem("highscore");
+    if (highscore === null) {
+        localStorage.setItem("highscore", 0);
+    }
+    highScoreCounter.innerText= highscore;
 
     let covidCreationInterval;
+    let heartCreationInterval;
 
 
     startButton.addEventListener("click", (event) => {
         playGame()
     });
+
+    function handleHighscore () {
+        if (highscore < score) {
+            localStorage.setItem("highscore", score);
+            highScoreCounter.innerText= score;
+        }
+    }
+
+    function handleCollision () {
+        life -=1;
+        lifeCounter.innerText = life;
+        if (life <= 0) {
+            gameOver();
+        }
+    }
 
     function letDoctorMove(event) {
         if (event.key === "ArrowLeft") {
@@ -81,7 +107,18 @@ function main() {
                     covid.src = "img/explosion.png";
                     covid.classList.remove("covid");
                     covid.classList.add("dead-covid");
-                    scoreCounter.innerText = parseInt(scoreCounter.innerText) + 100;
+                    score += 100;
+                    scoreCounter.innerText = score;
+                    handleHighscore();
+                }
+            })
+            let hearts = document.querySelectorAll(".heart");
+            hearts.forEach(heart => {
+                if(checkSyringeCollision(syringe, heart)) {
+                    heart.classList.remove("heart");
+                    heart.classList.add("dead-heart");
+                    life++;
+                    lifeCounter.innerText = life;
                 }
             })
             if (topPosition < 20) {
@@ -91,6 +128,17 @@ function main() {
                 syringe.style.top = `${topPosition - 4}px`;
             }
         }, 10)
+    }
+
+    function createHeart() {
+        let newHeart = document.createElement('img');
+        newHeart.src = 'img/heart.png';
+        newHeart.classList.add('heart');
+        newHeart.classList.add('heart-transition');
+        newHeart.style.top = '50px';
+        newHeart.style.left = `${Math.floor(Math.random() * 330) + 30}px`;
+        playArea.appendChild(newHeart);
+        moveHeart(newHeart);
     }
 
 
@@ -115,27 +163,45 @@ function main() {
                     covidElem.remove();
                     clearInterval(moveCovidInterval)
                 } else {
-                    gameOver();
+                    covidElem.remove();
+                    clearInterval(moveCovidInterval)
+                    handleCollision();
                 }
             } else {
                 covidElem.style.top = `${xPosition + 2}px`;
             }
         }, 30)
     }
+    function moveHeart(heartElem) {
+        let moveHeartdInterval = setInterval(() => {
+            let xPosition = parseInt(window.getComputedStyle(heartElem).getPropertyValue('top'));
+            if (xPosition >= 700) {
+                if (Array.from(heartElem.classList).includes("dead-heart")) {
+                    heartElem.remove();
+                    clearInterval(moveHeartdInterval)
+                } else {
+                    heartElem.remove();
+                    clearInterval(moveHeartdInterval)
+                }
+            } else {
+                heartElem.style.top = `${xPosition + 2}px`;
+            }
+        }, 30)
+    }
 
 
-    function checkSyringeCollision(syringe, covid) {
+    function checkSyringeCollision(syringe, elem) {
         let syringeLeft = parseInt(syringe.style.left);
         let syringeRight = 600 - syringeLeft;
         let syringeTop = parseInt(syringe.style.top);
         let syringeBottom = syringeTop + 30; //syringe height
-        let covidTop = parseInt(covid.style.top);
-        let covidBottom = covidTop - 30;
-        let covidLeft = parseInt(covid.style.left);
-        let covidRight = 580 - covidLeft;
+        let elemTop = parseInt(elem.style.top);
+        let elemBottom = elemTop - 30;
+        let elemLeft = parseInt(elem.style.left);
+        let elemRight = 580 - elemLeft;
 
-        if (syringeTop > 5 && syringeTop + 40 <= covidTop) {
-            if ((syringeLeft >= covidLeft && syringeRight >= covidRight)) {
+        if (syringeTop > 5 && syringeTop + 40 <= elemTop) {
+            if ((syringeLeft >= elemLeft && syringeRight >= elemRight)) {
                 return true;
             } else {
                 return false;
@@ -153,6 +219,7 @@ function main() {
         covids.forEach(covid => covid.remove());
         let syringes = document.querySelectorAll(".syringe");
         syringes.forEach(syringe => syringe.remove());
+        handleHighscore();
         setTimeout(() => {
 
             instructions.innerHTML = `Game Over! The viruses made it to your Grandma. Your final score is ${scoreCounter.innerText}!`;
@@ -163,11 +230,15 @@ function main() {
     }
 
     function playGame() {
-        scoreCounter.innerText = 0;
+        life = 3;
+        score = 0;
+        scoreCounter.innerText = score;
+        lifeCounter.innerText = life;
         startButton.style.display = 'none';
         instructions.style.display = 'none';
         window.addEventListener("keydown", letDoctorMove);
         covidCreationInterval = setInterval(function () { createCovid() }, 2100);
+        heartCreationInterval = setInterval(function () {createHeart()}, 16000);
     }
 }
 window.addEventListener("load", main);
