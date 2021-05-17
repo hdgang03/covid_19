@@ -13,6 +13,7 @@ function main() {
     let point = 100;
     let life;
     let score;
+    let fallSpeed = 2;
     let highscore = localStorage.getItem("highscore");
     if (highscore === null) {
         localStorage.setItem("highscore", 0);
@@ -31,6 +32,79 @@ function main() {
     startButton.addEventListener("click", (event) => {
         playGame()
     });
+
+    function resumeGame (/*event*/) {
+       /* if(event.key === "Escape") {
+            startButton.style.display = 'none';
+            instructions.style.display = 'none';
+            window.addEventListener("keydown", letDoctorMove);
+            fallSpeed = 2;
+            covidCreationInterval = setInterval(function () { createCovid() }, covidInterval);
+            heartCreationInterval = setInterval(function () {createHeart()}, heartInterval);
+            bombCreationInterval = setInterval(function () {createBomb()}, bombInterval);
+            starCreationInterval = setInterval(function () {createStar()}, starInterval);
+            window.removeEventListener("keydown", resumeGame);
+        }*/
+
+        startButton.style.display = 'none';
+        instructions.style.display = 'none';
+        window.addEventListener("keydown", letDoctorMove);
+        fallSpeed = 2;
+        covidCreationInterval = setInterval(function () { createCovid() }, covidInterval);
+        heartCreationInterval = setInterval(function () {createHeart()}, heartInterval);
+        bombCreationInterval = setInterval(function () {createBomb()}, bombInterval);
+        starCreationInterval = setInterval(function () {createStar()}, starInterval);
+        window.removeEventListener("keydown", resumeGame);
+
+    }
+
+    function endGame () {
+        window.removeEventListener("keydown", letDoctorMove);
+        startButton.style.display = 'none';
+        clearInterval(covidCreationInterval);
+        clearInterval(heartCreationInterval);
+        clearInterval(bombCreationInterval);
+        clearInterval(starCreationInterval);
+        let covids = document.querySelectorAll(".covid");
+        covids.forEach(covid => covid.remove());
+        let syringes = document.querySelectorAll(".syringe");
+        syringes.forEach(syringe => syringe.remove());
+        let hearts = document.querySelectorAll(".heart");
+        hearts.forEach(heart => heart.remove());
+        let stars = document.querySelectorAll(".star");
+        stars.forEach(star => star.remove());
+        let bombs = document.querySelectorAll(".bomb");
+        bombs.forEach(bomb => bomb.remove());
+        handleHighscore();
+        instructions.innerHTML = `Game Over! Your final score is ${scoreCounter.innerText}!`;
+        instructions.style.display = "block";
+        instructions.style.color = "red";
+        startButton.style.display = "block";
+    }
+
+    function pauseGame (event) {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            window.removeEventListener("keydown", letDoctorMove);
+            clearInterval(covidCreationInterval);
+            clearInterval(heartCreationInterval);
+            clearInterval(bombCreationInterval);
+            clearInterval(starCreationInterval);
+            fallSpeed = 0;
+            let syringes = document.querySelectorAll(".syringe");
+            syringes.forEach(syringe => syringe.remove());
+            instructions.innerHTML = `Paused`;
+            instructions.style.display = "block";
+            instructions.style.color = "red";
+            instructions.insertAdjacentHTML("beforeend", `<button id="resume">Resume</button>` );      
+            instructions.insertAdjacentHTML("beforeend", `<button id="end">End</button>` );
+            const resumeBtn = document.querySelector("#resume");   
+            const endBtn = document.querySelector("#end");
+            resumeBtn.addEventListener('click', resumeGame);   
+            endBtn.addEventListener('click', endGame);
+           /* window.addEventListener("keydown", resumeGame);*/
+        }
+    }
 
     function handleHighscore () {
         if (highscore < score) {
@@ -246,7 +320,7 @@ function main() {
                     handleCollision();
                 }
             } else {
-                covidElem.style.top = `${xPosition + 2}px`;
+                covidElem.style.top = `${xPosition + fallSpeed}px`;
             }
         }, 30)
     }
@@ -263,7 +337,7 @@ function main() {
                     clearInterval(moveHeartdInterval)
                 }
             } else {
-                heartElem.style.top = `${xPosition + 2}px`;
+                heartElem.style.top = `${xPosition + fallSpeed}px`;
             }
         }, 30)
     }
@@ -280,7 +354,7 @@ function main() {
                     clearInterval(moveBombInterval)
                 }
             } else {
-                bombElem.style.top = `${xPosition + 2}px`;
+                bombElem.style.top = `${xPosition + fallSpeed}px`;
             }
         }, 30)
     }
@@ -297,7 +371,7 @@ function main() {
                     clearInterval(moveStarInterval)
                 }
             } else {
-                starElem.style.top = `${xPosition + 2}px`;
+                starElem.style.top = `${xPosition + fallSpeed}px`;
             }
         }, 30)
     }
@@ -328,10 +402,19 @@ function main() {
     function gameOver() {
         window.removeEventListener("keydown", letDoctorMove);
         clearInterval(covidCreationInterval);
+        clearInterval(heartCreationInterval);
+        clearInterval(bombCreationInterval);
+        clearInterval(starCreationInterval);
         let covids = document.querySelectorAll(".covid");
         covids.forEach(covid => covid.remove());
         let syringes = document.querySelectorAll(".syringe");
         syringes.forEach(syringe => syringe.remove());
+        let hearts = document.querySelectorAll(".heart");
+        hearts.forEach(heart => heart.remove());
+        let stars = document.querySelectorAll(".star");
+        stars.forEach(star => star.remove());
+        let bombs = document.querySelectorAll(".bomb");
+        bombs.forEach(bomb => bomb.remove());
         handleHighscore();
         setTimeout(() => {
 
@@ -343,6 +426,7 @@ function main() {
     }
 
     function playGame() {
+        fallSpeed = 2;
         life = 3;
         score = 0;
         scoreCounter.innerText = score;
@@ -350,6 +434,7 @@ function main() {
         startButton.style.display = 'none';
         instructions.style.display = 'none';
         window.addEventListener("keydown", letDoctorMove);
+        window.addEventListener("keydown", pauseGame);
         covidCreationInterval = setInterval(function () { createCovid() }, covidInterval);
         heartCreationInterval = setInterval(function () {createHeart()}, heartInterval);
         bombCreationInterval = setInterval(function () {createBomb()}, bombInterval);
