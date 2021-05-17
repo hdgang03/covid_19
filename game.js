@@ -13,11 +13,11 @@ function main() {
     let point = 100;
     let life;
     let score;
-    let highscore = localStorage.getItem("highscore");
+    /*let highscore = localStorage.getItem("highscore");
     if (highscore === null) {
         localStorage.setItem("highscore", 0);
-    }
-    highScoreCounter.innerText= highscore;
+    }*/
+    highScoreCounter.innerText= "Nem elérhető";
     let covidInterval = 2100;
     let heartInterval = 16000;
     let bombInterval = 22000;
@@ -32,12 +32,12 @@ function main() {
         playGame()
     });
 
-    function handleHighscore () {
+    /*function handleHighscore () {
         if (highscore < score) {
             localStorage.setItem("highscore", score);
             highScoreCounter.innerText= score;
         }
-    }
+    }*/
 
     function handleCollision () {
         life -=1;
@@ -64,7 +64,7 @@ function main() {
             covid.classList.add("dead-covid");
             score += point;
             scoreCounter.innerText = score;
-            handleHighscore();
+           /* handleHighscore();*/
         });
     }
 
@@ -138,7 +138,7 @@ function main() {
                     syringe.remove();
                     score += point;
                     scoreCounter.innerText = score;
-                    handleHighscore();
+                   /* handleHighscore();*/
                 }
             })
             let hearts = document.querySelectorAll(".heart");
@@ -332,7 +332,7 @@ function main() {
         covids.forEach(covid => covid.remove());
         let syringes = document.querySelectorAll(".syringe");
         syringes.forEach(syringe => syringe.remove());
-        handleHighscore();
+        /*handleHighscore();*/
         setTimeout(() => {
 
             instructions.innerHTML = `Game Over! The viruses made it to your Grandma. Your final score is ${scoreCounter.innerText}!`;
