@@ -97,9 +97,56 @@
   opacity: 0;
 }
 
+.star {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 6px 3px red;
+}
+
+.star-transition {
+  opacity: 1;
+  transition: opacity 1.5s ease-out;
+}
+
+.dead-star {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  opacity: 0;
+}
+
+.bomb {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 6px 3px red;
+}
+
+.bomb-transition {
+  opacity: 1;
+  transition: opacity 1.5s ease-out;
+}
+
+.dead-bomb {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  opacity: 0;
+}
+
 #score {
   font-family: Arial, Helvetica, sans-serif;
   position: fixed;
   top: 30px;
   left: 650px;
+}
+
+#surprises {
+  padding: 30px;
+  color: red;
 }
