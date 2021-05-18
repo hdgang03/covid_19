@@ -189,7 +189,7 @@ function main() {
             let giantCovids = document.querySelectorAll(".giant-covid");
             giantCovids.forEach(giant => {
                 if(checkSyringeCollisionGiant(syringe, giant)) {
-                    health -=3;
+                    health -=1;
                     syringe.remove();                    
                     if (health <= 0) {
                         giant.src = "img/explosion.png";
