@@ -32,6 +32,34 @@
   left: 140px;
   top: 250px;
 }
+#resume {
+  margin: auto;
+  width: 150px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  background-color: black;
+  font-family: "Righteous", cursive;
+  border-radius: 5px;
+  left: 140px;
+  top: 250px;
+}
+#end {
+  margin: auto;
+  width: 150px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  background-color: black;
+  font-family: "Righteous", cursive;
+  border-radius: 5px;
+  left: 140px;
+  top: 250px;
+}
 
 #start-button:active {
   background-color: gray;
@@ -56,6 +84,14 @@
   position: absolute;
 }
 
+.giant-covid {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 6px 3px red;
+}
 .covid {
   width: 30px;
   height: 30px;
