@@ -106,23 +106,28 @@ function main() {
 
     function moveLeft() {
         let leftPosition = window.getComputedStyle(shooter).getPropertyValue('left');
-        if (shooter.style.left === "0px") {
+        let playAreaWidth = playArea.offsetWidth;
+        let shooterWidth = shooter.offsetWidth;
+        
+        if (parseInt(leftPosition) <= 0) {
             return;
         } else {
             let position = parseInt(leftPosition);
-            position -= 6;
+            position -= playAreaWidth * 0.01; // Move 1% of play area width
             shooter.style.left = `${position}px`;
         }
     }
 
     function moveRight() {
         let leftPosition = window.getComputedStyle(shooter).getPropertyValue('left');
-
-        if (parseInt(shooter.style.left) > 520) {
+        let playAreaWidth = playArea.offsetWidth;
+        let shooterWidth = shooter.offsetWidth;
+        
+        if (parseInt(leftPosition) + shooterWidth >= playAreaWidth) {
             return;
         } else {
             let position = parseInt(leftPosition);
-            position += 6;
+            position += playAreaWidth * 0.01; // Move 1% of play area width
             shooter.style.left = `${position}px`;
         }
     }
@@ -135,13 +140,25 @@ function main() {
     }
 
     function createSyringeElement() {
-        let xPosition = parseInt(window.getComputedStyle(shooter).getPropertyValue('left'));
-        let yPosition = parseInt(window.getComputedStyle(shooter).getPropertyValue('top'));
         let newSyringe = document.createElement('img');
         newSyringe.src = 'img/syringe@1.5x.png';
         newSyringe.classList.add('syringe');
-        newSyringe.style.left = `${xPosition + 35}px`;
-        newSyringe.style.top = `${yPosition - 10}px`;
+        
+        // Add syringe to DOM to get dimensions
+        playArea.appendChild(newSyringe);
+        
+        // Get shooter's position relative to play area
+        let shooterRect = shooter.getBoundingClientRect();
+        let playAreaRect = playArea.getBoundingClientRect();
+        let shooterCenterX = shooterRect.left + (shooterRect.width / 2) - playAreaRect.left;
+        
+        // Remove syringe from DOM temporarily
+        newSyringe.remove();
+        
+        // Position syringe at the center of the shooter
+        newSyringe.style.left = `${shooterCenterX - (newSyringe.offsetWidth / 2)}px`;
+        newSyringe.style.top = `${shooter.offsetTop - newSyringe.offsetHeight}px`;
+        
         return newSyringe;
     }
 
@@ -216,11 +233,14 @@ function main() {
     function createCovid() {
         let newCovid = document.createElement('img');
         let covidSpriteImg = covidImgs[Math.floor(Math.random() * covidImgs.length)];
+        let playAreaWidth = playArea.offsetWidth;
+        
         newCovid.src = covidSpriteImg;
         newCovid.classList.add('covid');
         newCovid.classList.add('covid-transition');
         newCovid.style.top = '50px';
-        newCovid.style.left = `${Math.floor(Math.random() * 330) + 30}px`;
+        // Use 10-90% of play area width for spawning
+        newCovid.style.left = `${Math.floor(Math.random() * (playAreaWidth * 0.8)) + (playAreaWidth * 0.1)}px`;
         playArea.appendChild(newCovid);
         moveCovid(newCovid);
     }
@@ -228,7 +248,9 @@ function main() {
     function moveCovid(covidElem) {
         let moveCovidInterval = setInterval(() => {
             let xPosition = parseInt(window.getComputedStyle(covidElem).getPropertyValue('top'));
-            if (xPosition >= 700) {
+            let playAreaHeight = playArea.offsetHeight;
+            
+            if (xPosition >= playAreaHeight - 50) { // Leave space for grandma
                 if (Array.from(covidElem.classList).includes("dead-covid")) {
                     covidElem.remove();
                     clearInterval(moveCovidInterval)
@@ -246,20 +268,24 @@ function main() {
     //GIANT COVID
     function createGiantCovid() {
         let newGiantCovid = document.createElement('img');
+        let playAreaWidth = playArea.offsetWidth;
+        
         newGiantCovid.src = 'img/covid_2.png';
         newGiantCovid.classList.add('giant-covid');
         newGiantCovid.classList.add('covid-transition');
         newGiantCovid.style.top = '50px';
-        newGiantCovid.style.left = `${Math.floor(Math.random() * 330) + 30}px`;
+        // Use 10-90% of play area width for spawning
+        newGiantCovid.style.left = `${Math.floor(Math.random() * (playAreaWidth * 0.8)) + (playAreaWidth * 0.1)}px`;
         playArea.appendChild(newGiantCovid);
         moveGiantCovid(newGiantCovid);
-        console.log("giant created");
     }
 
     function moveGiantCovid(giantCovidElem) {
         let moveGiantCovidInterval = setInterval(() => {
             let xPosition = parseInt(window.getComputedStyle(giantCovidElem).getPropertyValue('top'));
-            if (xPosition >= 700) {
+            let playAreaHeight = playArea.offsetHeight;
+            
+            if (xPosition >= playAreaHeight - 50) { // Leave space for grandma
                 if (Array.from(giantCovidElem.classList).includes("dead-covid")) {
                     giantCovidElem.remove();
                     clearInterval(moveGiantCovidInterval)
@@ -277,11 +303,14 @@ function main() {
     //HEART
     function createHeart() {
         let newHeart = document.createElement('img');
+        let playAreaWidth = playArea.offsetWidth;
+        
         newHeart.src = 'img/heart.png';
         newHeart.classList.add('heart');
         newHeart.classList.add('heart-transition');
         newHeart.style.top = '50px';
-        newHeart.style.left = `${Math.floor(Math.random() * 330) + 30}px`;
+        // Use 10-90% of play area width for spawning
+        newHeart.style.left = `${Math.floor(Math.random() * (playAreaWidth * 0.8)) + (playAreaWidth * 0.1)}px`;
         playArea.appendChild(newHeart);
         moveHeart(newHeart);
     }
@@ -289,7 +318,9 @@ function main() {
     function moveHeart(heartElem) {
         let moveHeartdInterval = setInterval(() => {
             let xPosition = parseInt(window.getComputedStyle(heartElem).getPropertyValue('top'));
-            if (xPosition >= 700) {
+            let playAreaHeight = playArea.offsetHeight;
+            
+            if (xPosition >= playAreaHeight - 50) { // Leave space for grandma
                 if (Array.from(heartElem.classList).includes("dead-heart")) {
                     heartElem.remove();
                     clearInterval(moveHeartdInterval)
@@ -306,11 +337,14 @@ function main() {
     //STAR
     function createStar() {
         let newStar = document.createElement('img');
+        let playAreaWidth = playArea.offsetWidth;
+        
         newStar.src = 'img/star.png';
         newStar.classList.add('star');
         newStar.classList.add('star-transition');
         newStar.style.top = '50px';
-        newStar.style.left = `${Math.floor(Math.random() * 330) + 30}px`;
+        // Use 10-90% of play area width for spawning
+        newStar.style.left = `${Math.floor(Math.random() * (playAreaWidth * 0.8)) + (playAreaWidth * 0.1)}px`;
         playArea.appendChild(newStar);
         moveStar(newStar);
     }
@@ -318,7 +352,9 @@ function main() {
     function moveStar(starElem) {
         let moveStarInterval = setInterval(() => {
             let xPosition = parseInt(window.getComputedStyle(starElem).getPropertyValue('top'));
-            if (xPosition >= 700) {
+            let playAreaHeight = playArea.offsetHeight;
+            
+            if (xPosition >= playAreaHeight - 50) { // Leave space for grandma
                 if (Array.from(starElem.classList).includes("dead-star")) {
                     starElem.remove();
                     clearInterval(moveStarInterval)
@@ -335,11 +371,14 @@ function main() {
     //BOMB
     function createBomb() {
         let newBomb = document.createElement('img');
+        let playAreaWidth = playArea.offsetWidth;
+        
         newBomb.src = 'img/bomb.png';
         newBomb.classList.add('bomb');
         newBomb.classList.add('bomb-transition');
         newBomb.style.top = '50px';
-        newBomb.style.left = `${Math.floor(Math.random() * 330) + 30}px`;
+        // Use 10-90% of play area width for spawning
+        newBomb.style.left = `${Math.floor(Math.random() * (playAreaWidth * 0.8)) + (playAreaWidth * 0.1)}px`;
         playArea.appendChild(newBomb);
         moveBomb(newBomb);
     }
@@ -347,7 +386,9 @@ function main() {
     function moveBomb(bombElem) {
         let moveBombInterval = setInterval(() => {
             let xPosition = parseInt(window.getComputedStyle(bombElem).getPropertyValue('top'));
-            if (xPosition >= 700) {
+            let playAreaHeight = playArea.offsetHeight;
+            
+            if (xPosition >= playAreaHeight - 50) { // Leave space for grandma
                 if (Array.from(bombElem.classList).includes("dead-bomb")) {
                     bombElem.remove();
                     clearInterval(moveBombInterval)
@@ -363,46 +404,45 @@ function main() {
 
     //CHECK COLLISION
     function checkSyringeCollision(syringe, elem) {
-        let syringeLeft = parseInt(syringe.style.left);
-        let syringeRight = 600 - syringeLeft;
-        let syringeTop = parseInt(syringe.style.top);
-        let syringeBottom = syringeTop + 30; //syringe height
-        let elemTop = parseInt(elem.style.top);
-        let elemBottom = elemTop - 30;
-        let elemLeft = parseInt(elem.style.left) - 20;
-        //let elemRight = 580 - elemLeft;
-        let elemRight = 555 - elemLeft;
+        let syringeRect = syringe.getBoundingClientRect();
+        let elemRect = elem.getBoundingClientRect();
+        let playAreaRect = playArea.getBoundingClientRect();
 
-        if (syringeTop > 5 && syringeTop + 40 <= elemTop) {
-            if ((syringeLeft >= elemLeft && syringeRight >= elemRight)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        // Convert coordinates to be relative to play area
+        let syringeTop = syringeRect.top - playAreaRect.top;
+        let syringeLeft = syringeRect.left - playAreaRect.left;
+        let elemTop = elemRect.top - playAreaRect.top;
+        let elemLeft = elemRect.left - playAreaRect.left;
+
+        // Check vertical collision
+        if (syringeTop > 5 && syringeTop + syringeRect.height <= elemTop) {
+            // Check horizontal collision
+            let horizontalOverlap = !(syringeRect.right < elemRect.left || 
+                                    syringeRect.left > elemRect.right);
+            return horizontalOverlap;
         }
+        return false;
     }
 
     function checkSyringeCollisionGiant(syringe, elem) {
-        let syringeLeft = parseInt(syringe.style.left);
-        let syringeRight = 600 - syringeLeft;
-        let syringeTop = parseInt(syringe.style.top);
-        let syringeBottom = syringeTop + 30; //syringe height
-        let elemTop = parseInt(elem.style.top);
-        let elemBottom = elemTop - 30;
-        let elemLeft = parseInt(elem.style.left)-20;
-        let elemRight = 485 - elemLeft;
+        let syringeRect = syringe.getBoundingClientRect();
+        let elemRect = elem.getBoundingClientRect();
+        let playAreaRect = playArea.getBoundingClientRect();
 
-        if (syringeTop > 5 && syringeTop + 40 <= elemTop) {
-            if ((syringeLeft >= elemLeft && syringeRight >= elemRight)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        // Convert coordinates to be relative to play area
+        let syringeTop = syringeRect.top - playAreaRect.top;
+        let syringeLeft = syringeRect.left - playAreaRect.left;
+        let elemTop = elemRect.top - playAreaRect.top;
+        let elemLeft = elemRect.left - playAreaRect.left;
+
+        // Check vertical collision with larger hit box for giant covid
+        if (syringeTop > 5 && syringeTop + syringeRect.height <= elemTop + elemRect.height) {
+            // Check horizontal collision with larger hit box
+            let horizontalOverlap = !(syringeRect.right < elemRect.left - 10 || 
+                                    syringeRect.left > elemRect.right + 10);
+            return horizontalOverlap;
         }
+        return false;
     }
 
     //GAME CONTROL

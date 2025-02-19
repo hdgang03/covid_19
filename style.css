@@ -1,11 +1,42 @@
 @import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
-#play-area {
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  overflow: hidden;
+  position: relative;
+}
+
+.game-container {
   width: 600px;
   height: 600px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#play-area {
+  width: 100%;
+  height: 100%;
   border: 1px solid grey;
   border-radius: 5px;
   position: relative;
   background-color: rgb(218, 240, 248);
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .game-container {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+@media (max-width: 480px) {
+  .game-container {
+    transform: translate(-50%, -50%) scale(0.6);
+  }
 }
 
 #instructions-text {
@@ -18,8 +49,8 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#start-button {
-  margin: auto;
+#start-button, #resume, #end {
+  position: absolute;
   width: 150px;
   height: 50px;
   color: white;
@@ -29,36 +60,14 @@
   background-color: black;
   font-family: "Righteous", cursive;
   border-radius: 5px;
-  left: 140px;
-  top: 250px;
-}
-#resume {
+  left: 0;
+  right: 0;
+  top: 50%;
   margin: auto;
-  width: 150px;
-  height: 50px;
-  color: white;
-  font-size: 20px;
-  text-align: center;
-  cursor: pointer;
-  background-color: black;
-  font-family: "Righteous", cursive;
-  border-radius: 5px;
-  left: 140px;
-  top: 250px;
-}
-#end {
-  margin: auto;
-  width: 150px;
-  height: 50px;
-  color: white;
-  font-size: 20px;
-  text-align: center;
-  cursor: pointer;
-  background-color: black;
-  font-family: "Righteous", cursive;
-  border-radius: 5px;
-  left: 140px;
-  top: 250px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #start-button:active {
@@ -72,114 +81,119 @@
 }
 
 #shooter {
-  width: 100px;
+  width: 16.67%;
   position: absolute;
-  left: 300px;
-  top: 500px;
+  left: 50%;
+  bottom: 15%;
+  transform: translateX(-50%);
+  max-width: 100px;
 }
 
 .syringe {
-  width: 30px;
-  height: 30px;
+  width: 5%;
+  min-width: 20px;
+  max-width: 30px;
+  height: auto;
   position: absolute;
+}
+
+.grandma {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+}
+
+.grandma img {
+  width: 15%;
+  min-width: 80px;
+  max-width: 120px;
+  height: auto;
 }
 
 .giant-covid {
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  border-radius: 50%;
-  background-color: #fff;
-  box-shadow: 0 0 6px 3px red;
-}
-.covid {
-  width: 30px;
-  height: 30px;
+  width: 16.67%;
+  height: auto;
+  aspect-ratio: 1;
   position: absolute;
   border-radius: 50%;
   background-color: #fff;
   box-shadow: 0 0 6px 3px red;
 }
 
-.covid-transition {
+.covid, .heart, .star, .bomb {
+  width: 5%;
+  height: auto;
+  aspect-ratio: 1;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 6px 3px red;
+  min-width: 20px;
+  max-width: 30px;
+}
+
+.covid-transition, .heart-transition, .star-transition, .bomb-transition {
   opacity: 1;
   transition: opacity 1.5s ease-out;
 }
 
-.dead-covid {
-  width: 30px;
-  height: 30px;
+.dead-covid, .dead-heart, .dead-star, .dead-bomb {
+  width: 5%;
+  height: auto;
+  aspect-ratio: 1;
   position: absolute;
   opacity: 0;
-}
-.heart {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  border-radius: 50%;
-  background-color: #fff;
-  box-shadow: 0 0 6px 3px red;
-}
-
-.heart-transition {
-  opacity: 1;
-  transition: opacity 1.5s ease-out;
-}
-
-.dead-heart {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  opacity: 0;
-}
-
-.star {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  border-radius: 50%;
-  background-color: #fff;
-  box-shadow: 0 0 6px 3px red;
-}
-
-.star-transition {
-  opacity: 1;
-  transition: opacity 1.5s ease-out;
-}
-
-.dead-star {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  opacity: 0;
-}
-
-.bomb {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  border-radius: 50%;
-  background-color: #fff;
-  box-shadow: 0 0 6px 3px red;
-}
-
-.bomb-transition {
-  opacity: 1;
-  transition: opacity 1.5s ease-out;
-}
-
-.dead-bomb {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  opacity: 0;
+  min-width: 20px;
+  max-width: 30px;
 }
 
 #score {
   font-family: Arial, Helvetica, sans-serif;
   position: fixed;
-  top: 30px;
-  left: 650px;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .game-container {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  
+  #score {
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+    text-align: right;
+  }
+  
+  #instructions-text {
+    font-size: medium;
+    margin-top: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-container {
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  
+  #score {
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+  }
+  
+  #instructions-text {
+    font-size: small;
+    margin-top: 80px;
+  }
 }
 
 #surprises {
