@@ -1,14 +1,16 @@
-function main() {
+import { 
+    startButton,
+    instructions,
+    playArea,
+    shooter,
+    covidImgs,
+    lifeCounter,
+    scoreCounter,
+    highScoreCounter,
+    surprises 
+} from './constants.js';
 
-    const startButton = document.getElementById("start-button");
-    const instructions = document.getElementById("instructions-text");
-    const playArea = document.getElementById("play-area");
-    const shooter = document.getElementById("shooter");
-    const covidImgs = ['img/covid_1.png', 'img/covid_2.png', 'img/covid_3.png'];
-    const lifeCounter = document.querySelector('#life');
-    const scoreCounter = document.querySelector('#currentscore');
-    const highScoreCounter = document.querySelector("#highscore");
-    const surprises = document.querySelector("#surprises");
+function main() {
 
     //VARIABLES
     let health = 500;

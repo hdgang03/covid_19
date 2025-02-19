@@ -1,0 +1,9 @@
+export const startButton = document.getElementById("start-button");
+export const instructions = document.getElementById("instructions-text");
+export const playArea = document.getElementById("play-area");
+export const shooter = document.getElementById("shooter");
+export const covidImgs = ['img/covid_1.png', 'img/covid_2.png', 'img/covid_3.png'];
+export const lifeCounter = document.querySelector('#life');
+export const scoreCounter = document.querySelector('#currentscore');
+export const highScoreCounter = document.querySelector("#highscore");
+export const surprises = document.querySelector("#surprises");
